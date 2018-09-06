@@ -2,45 +2,44 @@ import React, { Component } from "react";
 import axios from "axios";
 import moment from "moment";
 import { Link } from "react-router-dom";
-
 import Spinner from "../Layout/Spinner";
+import { connect } from "react-redux";
+
+import { fetchLyricById, fetchTrackById } from "../../actions";
 
 class Lyrics extends Component {
-  state = {
-    track: {},
-    lyrics: {}
-  };
-
   componentDidMount() {
     const { track_id } = this.props.match.params;
-    axios
-      .get(
-        `https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${track_id}&apikey=${
-          process.env.REACT_APP_API_KEY
-        }`
-      )
-      .then(res => {
-        this.setState({ lyrics: res.data.message.body.lyrics });
+    this.props.fetchLyricById(track_id);
+    this.props.fetchTrackById(track_id);
+    // axios
+    //   .get(
+    //     `https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${track_id}&apikey=${
+    //       process.env.REACT_APP_API_KEY
+    //     }`
+    //   )
+    //   .then(res => {
+    //     this.setState({ lyrics: res.data.message.body.lyrics });
 
-        return axios.get(
-          `https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.get?track_id=${track_id}&apikey=${
-            process.env.REACT_APP_API_KEY
-          }`
-        );
-      })
-      .then(res => {
-        this.setState({ track: res.data.message.body.track });
-      })
-      .catch(err => console.log(err));
+    //     return axios.get(
+    //       `https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.get?track_id=${track_id}&apikey=${
+    //         process.env.REACT_APP_API_KEY
+    //       }`
+    //     );
+    //   })
+    //   .then(res => {
+    //     this.setState({ track: res.data.message.body.track });
+    //   })
+    //   .catch(err => console.log(err));
   }
 
   render() {
-    const { lyrics, track } = this.state;
+    const { track, lyric } = this.props;
     if (
       track === undefined ||
-      lyrics === undefined ||
+      lyric === undefined ||
       Object.keys(track).length === 0 ||
-      Object.keys(lyrics).length === 0
+      Object.keys(lyric).length === 0
     ) {
       return <Spinner />;
     } else {
@@ -59,9 +58,13 @@ class Lyrics extends Component {
                 <div className="col-md-6">
                   <h5>Lyrics</h5>
                   <h1 className="lyrics-track-title">{track.album_name}</h1>
+                  <h3 className="lyrics-track-title">{track.track_name}</h3>
                   <a className="lyrics-track-artist">{track.artist_name}</a>
                   <p className="font-weight-light font-italic mt-1">
-                    <small>Release Date: {moment().format("MMM Do YY")}</small>
+                    <small>
+                      Release Date:{" "}
+                      {moment(track.first_release_date).format("MMM Do YY")}
+                    </small>
                   </p>
                   <div className="genre-box">
                     <div className="genre-button">
@@ -101,7 +104,7 @@ class Lyrics extends Component {
                       {track.track_name} lyrics:{" "}
                     </h6>
                   )}
-                  <p className="lead">{lyrics.lyrics_body}</p>
+                  <p className="lead">{lyric.lyrics_body}</p>
                 </div>
               </div>
             </div>
@@ -112,4 +115,12 @@ class Lyrics extends Component {
   }
 }
 
-export default Lyrics;
+const mapStateToProps = state => ({
+  track: state.track,
+  lyric: state.lyric
+});
+
+export default connect(
+  mapStateToProps,
+  { fetchLyricById, fetchTrackById }
+)(Lyrics);
