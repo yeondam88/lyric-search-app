@@ -2,6 +2,8 @@
 
 Powered by [musixmatch.com](https://developer.musixmatch.com) API
 
+<img src="lyric-search-app.png" />
+
 ## Features
 * Search lyrics by track name
 * Get track detail with its own page
