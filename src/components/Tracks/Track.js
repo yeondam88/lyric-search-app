@@ -19,7 +19,7 @@ const Track = ({ track, imgSrc }) => {
             className="btn btn-dark btn-block mt-2"
             to={`lyrics/track/${track.track_id}`}
           >
-            <i className="fas fa-chevron-right" /> View Lyrics
+            View Lyrics
           </Link>
         </div>
       </div>
