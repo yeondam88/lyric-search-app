@@ -5,10 +5,27 @@ import { fetchTracks } from "../../actions";
 import Spinner from "../Layout/Spinner";
 import Track from "./Track";
 
+const keywords = [
+  "music",
+  "people",
+  "city",
+  "skyline",
+  "galaxy",
+  "cars",
+  "artist",
+  "ocean",
+  "landmark",
+  "airplane"
+];
+
 class Tracks extends Component {
   componentDidMount() {
     this.props.fetchTracks();
   }
+
+  getRandomImage = (keywords, index) => {
+    return `https://source.unsplash.com/600x400?${keywords[index]}`;
+  };
 
   render() {
     const { track_list } = this.props.track_list;
@@ -16,14 +33,17 @@ class Tracks extends Component {
     if (track_list === undefined || track_list.length === 0) {
       return <Spinner />;
     } else {
-      const randomImageUrl = "https://source.unsplash.com/random/600x400";
       return (
         <React.Fragment>
           <h3 className="text-center mb-4">{heading}</h3>
           <div className="row">
             {track_list.map((item, i) => {
               return (
-                <Track key={i} track={item.track} imgSrc={randomImageUrl} />
+                <Track
+                  key={i}
+                  track={item.track}
+                  imgSrc={this.getRandomImage(keywords, i)}
+                />
               );
             })}
           </div>

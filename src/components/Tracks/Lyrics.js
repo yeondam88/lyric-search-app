@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import Spinner from "../Layout/Spinner";
@@ -12,25 +11,6 @@ class Lyrics extends Component {
     const { track_id } = this.props.match.params;
     this.props.fetchLyricById(track_id);
     this.props.fetchTrackById(track_id);
-    // axios
-    //   .get(
-    //     `https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${track_id}&apikey=${
-    //       process.env.REACT_APP_API_KEY
-    //     }`
-    //   )
-    //   .then(res => {
-    //     this.setState({ lyrics: res.data.message.body.lyrics });
-
-    //     return axios.get(
-    //       `https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.get?track_id=${track_id}&apikey=${
-    //         process.env.REACT_APP_API_KEY
-    //       }`
-    //     );
-    //   })
-    //   .then(res => {
-    //     this.setState({ track: res.data.message.body.track });
-    //   })
-    //   .catch(err => console.log(err));
   }
 
   render() {
