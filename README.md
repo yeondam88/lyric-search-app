@@ -1,14 +1,16 @@
-Lyric search web app with React/Redux
+# 🎶 Lyric search web app with React/Redux 🎶
 
-Powered by [musixmatch.com](https://developer.musixmatch.com)
+Powered by [musixmatch.com](https://developer.musixmatch.com) API
 
 ## Features
-- Search lyrics by track name
-- Get Top 10 tracks
+* Search lyrics by track name
+* Get track detail with its own page
+* Get Top 10 tracks
 
 ## Getting Started
-```
-npm install 
-npm start
+```js
+> git clone https://github.com/yeondam88/lyric-search-app.git
+> npm install 
+> npm start
 ```
 
